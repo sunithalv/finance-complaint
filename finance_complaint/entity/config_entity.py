@@ -4,6 +4,7 @@ from datetime import datetime
 from .metadata_entity import DataIngestionMetadata
 from finance_complaint.exception import FinanceException
 from finance_complaint.constant import TIMESTAMP
+
 #Dataingestion constants
 DATA_INGESTION_DIR = "data_ingestion"
 DATA_INGESTION_DOWNLOADED_DATA_DIR = "downloaded_files"
@@ -11,7 +12,7 @@ DATA_INGESTION_FILE_NAME = "finance_complaint"
 DATA_INGESTION_FEATURE_STORE_DIR = "feature_store"
 DATA_INGESTION_FAILED_DIR = "failed_downloaded_files"
 DATA_INGESTION_METADATA_FILE_NAME = "meta_info.yaml"
-DATA_INGESTION_MIN_START_DATE = "2011-01-01"
+DATA_INGESTION_MIN_START_DATE = "2019-01-01"
 DATA_INGESTION_DATA_SOURCE_URL = f"https://www.consumerfinance.gov/data-research/consumer-complaints/search/api/v1/" \
                       f"?date_received_max=<todate>&date_received_min=<fromdate>" \
                       f"&field=all&format=json"
@@ -80,9 +81,11 @@ class DataIngestionConfig:
             min_start_date = datetime.strptime(DATA_INGESTION_MIN_START_DATE, "%Y-%m-%d")
             from_date_obj = datetime.strptime(from_date, "%Y-%m-%d")
 
+            #If start date passed is before the min start date set it as min start date
             if from_date_obj < min_start_date:
                 self.from_date = DATA_INGESTION_MIN_START_DATE
 
+            #If to date is not passed set it as current date
             if to_date is None:
                 self.to_date = datetime.now().strftime("%Y-%m-%d")
 
@@ -91,6 +94,8 @@ class DataIngestionConfig:
             self.metadata_file_path = os.path.join(data_ingestion_master_dir, DATA_INGESTION_METADATA_FILE_NAME)
 
             data_ingestion_metadata = DataIngestionMetadata(metadata_file_path=self.metadata_file_path)
+            #Check if meta_info.yaml file is already present
+            #If present read info and get the to date as from date to prevent duplicate data download
             if data_ingestion_metadata.is_metadata_file_present:
                 metadata_info = data_ingestion_metadata.get_metadata_info()
                 self.from_date = metadata_info.to_date
