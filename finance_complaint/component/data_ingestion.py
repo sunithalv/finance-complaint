@@ -34,7 +34,7 @@ class DataIngestion:
         except Exception as e:
             raise FinanceException(e, sys)
 
-
+    #Get the interval from start and end date and split it into yearly intervals for downloading data
     def get_required_interval(self):
         start_date = datetime.strptime(self.data_ingestion_config.from_date, "%Y-%m-%d")
         end_date = datetime.strptime(self.data_ingestion_config.to_date, "%Y-%m-%d")
@@ -135,7 +135,7 @@ class DataIngestion:
                 logger.info(f"Unable to download file {download_url.url}")
                 return
 
-            # to handle throatling requestion and can be slove if we wait for some second.
+            # Wait before sending request again
             content = data.content.decode("utf-8")
             wait_second = re.findall(r'\d+', content)
 
@@ -149,7 +149,7 @@ class DataIngestion:
             with open(failed_file_path, "wb") as file_obj:
                 file_obj.write(data.content)
 
-            # calling download function again to retry
+            # calling download function again to retry and decrement the retry count
             download_url = DownloadUrl(download_url.url, file_path=download_url.file_path,
                                        n_retry=download_url.n_retry - 1)
             self.download_data(download_url=download_url)
