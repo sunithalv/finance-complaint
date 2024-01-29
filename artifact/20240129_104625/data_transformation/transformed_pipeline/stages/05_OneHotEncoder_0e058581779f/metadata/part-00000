@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.OneHotEncoderModel","timestamp":1706505421164,"sparkVersion":"3.2.1","uid":"OneHotEncoder_0e058581779f","paramMap":{"outputCols":["tf_company_response","tf_submitted_via"],"inputCols":["si_company_response","si_submitted_via"]},"defaultParamMap":{"dropLast":true,"outputCol":"OneHotEncoder_0e058581779f__output","handleInvalid":"error"}}

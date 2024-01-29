@@ -54,16 +54,16 @@ class TrainingPipeline:
         except Exception as e:
             raise FinanceException(e, sys)
 
-    # def start_model_trainer(self, data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
-    #     try:
-    #         model_trainer_config = ModelTrainerConfig(training_pipeline_config=self.training_pipeline_config)
-    #         model_trainer = ModelTrainer(data_transformation_artifact=data_transformation_artifact,
-    #                                      model_trainer_config=model_trainer_config
-    #                                      )
-    #         model_trainer_artifact = model_trainer.initiate_model_training()
-    #         return model_trainer_artifact
-    #     except Exception as e:
-    #         raise FinanceException(e, sys)
+    def start_model_trainer(self, data_transformation_artifact: DataTransformationArtifact) -> ModelTrainerArtifact:
+        try:
+            model_trainer_config = ModelTrainerConfig(training_pipeline_config=self.training_pipeline_config)
+            model_trainer = ModelTrainer(data_transformation_artifact=data_transformation_artifact,
+                                         model_trainer_config=model_trainer_config
+                                         )
+            model_trainer_artifact = model_trainer.initiate_model_training()
+            return model_trainer_artifact
+        except Exception as e:
+            raise FinanceException(e, sys)
 
     # def start_model_evaluation(self, data_validation_artifact, model_trainer_artifact) -> ModelEvaluationArtifact:
     #     try:
@@ -92,7 +92,7 @@ class TrainingPipeline:
             data_ingestion_artifact = self.start_data_ingestion()
             data_validation_artifact = self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
             data_transformation_artifact = self.start_data_transformation(data_validation_artifact=data_validation_artifact)
-            # model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
+            model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
             # model_eval_artifact = self.start_model_evaluation(data_validation_artifact=data_validation_artifact,
             #                                                   model_trainer_artifact=model_trainer_artifact
             #                                                   )
