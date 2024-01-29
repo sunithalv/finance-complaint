@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.VectorAssembler","timestamp":1706551245963,"sparkVersion":"3.2.1","uid":"VectorAssembler_54f5d977a74c","paramMap":{"inputCols":["tf_company_response","tf_submitted_via","im_diff_in_days","tf_issue"],"outputCol":"va_input_features"},"defaultParamMap":{"handleInvalid":"error","outputCol":"VectorAssembler_be0bb5586917__output"}}

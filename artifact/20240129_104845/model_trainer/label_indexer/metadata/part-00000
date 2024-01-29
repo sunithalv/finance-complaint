@@ -1,1 +1,0 @@
-{"class":"org.apache.spark.ml.feature.StringIndexerModel","timestamp":1706505565708,"sparkVersion":"3.2.1","uid":"StringIndexer_1047e63a6378","paramMap":{"outputCol":"indexed_consumer_disputed","inputCol":"consumer_disputed"},"defaultParamMap":{"outputCol":"StringIndexer_1047e63a6378__output","stringOrderType":"frequencyDesc","handleInvalid":"error"}}

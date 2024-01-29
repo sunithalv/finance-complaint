@@ -1,0 +1,1 @@
+{"class":"finance_complaint.ml.feature.FrequencyImputerModel","timestamp":1706551253932,"sparkVersion":"3.2.1","uid":"FrequencyImputerModel_83ff0f6077fa","paramMap":{"inputCols":["company_response","submitted_via"],"outputCols":["im_company_response","im_submitted_via"],"topCategorys":["In progress","Web"]},"defaultParamMap":{"topCategorys":""}}

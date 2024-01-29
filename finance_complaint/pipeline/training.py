@@ -65,27 +65,27 @@ class TrainingPipeline:
         except Exception as e:
             raise FinanceException(e, sys)
 
-    # def start_model_evaluation(self, data_validation_artifact, model_trainer_artifact) -> ModelEvaluationArtifact:
-    #     try:
-    #         model_eval_config = ModelEvaluationConfig(training_pipeline_config=self.training_pipeline_config)
-    #         model_eval = ModelEvaluation(data_validation_artifact=data_validation_artifact,
-    #                                     model_trainer_artifact=model_trainer_artifact,
-    #                                     model_eval_config=model_eval_config
-    #                                     )
-    #         return model_eval.initiate_model_evaluation()
-    #     except Exception as e:
-    #         raise FinanceException(e, sys)
+    def start_model_evaluation(self, data_validation_artifact, model_trainer_artifact) -> ModelEvaluationArtifact:
+        try:
+            model_eval_config = ModelEvaluationConfig(training_pipeline_config=self.training_pipeline_config)
+            model_eval = ModelEvaluation(data_validation_artifact=data_validation_artifact,
+                                        model_trainer_artifact=model_trainer_artifact,
+                                        model_eval_config=model_eval_config
+                                        )
+            return model_eval.initiate_model_evaluation()
+        except Exception as e:
+            raise FinanceException(e, sys)
 
-    # def start_model_pusher(self, model_trainer_artifact: ModelTrainerArtifact):
-    #     try:
+    def start_model_pusher(self, model_trainer_artifact: ModelTrainerArtifact):
+        try:
 
-    #         model_pusher_config = ModelPusherConfig(training_pipeline_config=self.training_pipeline_config)
-    #         model_pusher = ModelPusher(model_trainer_artifact=model_trainer_artifact,
-    #                                    model_pusher_config=model_pusher_config
-    #                                    )
-    #         return model_pusher.initiate_model_pusher()
-    #     except Exception as e:
-    #         raise FinanceException(e, sys)
+            model_pusher_config = ModelPusherConfig(training_pipeline_config=self.training_pipeline_config)
+            model_pusher = ModelPusher(model_trainer_artifact=model_trainer_artifact,
+                                       model_pusher_config=model_pusher_config
+                                       )
+            return model_pusher.initiate_model_pusher()
+        except Exception as e:
+            raise FinanceException(e, sys)
 
     def start(self):
         try:
@@ -93,12 +93,12 @@ class TrainingPipeline:
             data_validation_artifact = self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
             data_transformation_artifact = self.start_data_transformation(data_validation_artifact=data_validation_artifact)
             model_trainer_artifact = self.start_model_trainer(data_transformation_artifact=data_transformation_artifact)
-            # model_eval_artifact = self.start_model_evaluation(data_validation_artifact=data_validation_artifact,
-            #                                                   model_trainer_artifact=model_trainer_artifact
-            #                                                   )
+            model_eval_artifact = self.start_model_evaluation(data_validation_artifact=data_validation_artifact,
+                                                              model_trainer_artifact=model_trainer_artifact
+                                                              )
        
-            # if model_eval_artifact.model_accepted:
-            #     self.start_model_pusher(model_trainer_artifact=model_trainer_artifact)
+            if model_eval_artifact.model_accepted:
+                self.start_model_pusher(model_trainer_artifact=model_trainer_artifact)
         except Exception as e:
             raise FinanceException(e, sys)
 

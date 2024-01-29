@@ -1,1 +1,0 @@
-{"class":"finance_complaint.ml.feature.DerivedFeatureGenerator","timestamp":1706505582414,"sparkVersion":"3.2.1","uid":"DerivedFeatureGenerator_16b47d402940","paramMap":{"inputCols":["date_sent_to_company","date_received"],"outputCols":["diff_in_days"]},"defaultParamMap":{}}
