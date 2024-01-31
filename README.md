@@ -8,4 +8,5 @@ The project uses NLP (Natural Language Processing) along with Machine Learning M
 1. Pyspark
 2. Airflow
 3. Docker
-4. AWS S3,ECR,EC2
+4. MongoDB
+5. AWS S3,ECR,EC2
