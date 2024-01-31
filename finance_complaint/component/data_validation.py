@@ -39,7 +39,7 @@ class DataValidation():
         try:
             dataframe: DataFrame = spark_session.read.parquet(
                 self.data_ingestion_artifact.feature_store_file_path
-            )
+            )#.limit(10000)#Limit the dataset to 10000
             logger.info(f"Data frame is created using file: {self.data_ingestion_artifact.feature_store_file_path}")
             logger.info(f"Number of row: {dataframe.count()} and column: {len(dataframe.columns)}")
             return dataframe
@@ -77,6 +77,7 @@ class DataValidation():
                 if missing_report[column].missing_percentage > (threshold * 100):
                     unwanted_column.append(column)
                     logger.info(f"Missing report {column}: [{missing_report[column]}]")
+            #Append the column name to unwanted columns list if missing value % is >0.2
             unwanted_column = list(set(unwanted_column))
             return unwanted_column
 
@@ -88,7 +89,7 @@ class DataValidation():
             unwanted_columns: List = self.get_unwanted_and_high_missing_value_columns(dataframe=dataframe, )
             logger.info(f"Dropping feature: {','.join(unwanted_columns)}")
             unwanted_dataframe: DataFrame = dataframe.select(unwanted_columns)
-
+            #Create unwanted dataframe with the unwanted columns and move to rejected directory
             unwanted_dataframe = unwanted_dataframe.withColumn(ERROR_MESSAGE, lit("Contains many missing values"))
 
             rejected_dir = os.path.join(self.data_validation_config.rejected_data_dir, "missing_data")
@@ -97,6 +98,7 @@ class DataValidation():
 
             logger.info(f"Writing dropped column into file: [{file_path}]")
             unwanted_dataframe.write.mode("append").parquet(file_path)
+            #Drop unwanted columns from original dataframe
             dataframe: DataFrame = dataframe.drop(*unwanted_columns)
             logger.info(f"Remaining number of columns: [{dataframe.columns}]")
             return dataframe
@@ -107,7 +109,7 @@ class DataValidation():
         try:
             columns = list(filter(lambda x: x in self.schema.required_columns,
                                   dataframe.columns))
-
+            #Check whether if all required columns are present in dataframe and if not raise exception to stop pipeline
             if len(columns) != len(self.schema.required_columns):
                 raise Exception(f"Required column missing\n\
                  Expected columns: {self.schema.required_columns}\n\

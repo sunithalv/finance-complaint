@@ -59,7 +59,7 @@ class FinanceDataSchema:
     def one_hot_encoding_features(self) -> List[str]:
         features = [
             self.col_company_response,
-            self.col_consumer_consent_provided,
+            #self.col_consumer_consent_provided,
             self.col_submitted_via,
         ]
         return features
