@@ -175,5 +175,5 @@ class BatchPredictionConfig:
             os.makedirs(self.outbox_dir ,exist_ok=True)
             os.makedirs(self.archive_dir,exist_ok=True)
         except Exception as e:
-            raise SensorException(e, sys)
+            raise FinanceException(e, sys)
 
